@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Preview Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .main-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .preview-title {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .preview-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .profile-preview {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 1s ease-out;
+            margin-bottom: 40px;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            object-fit: cover;
+            border: 4px solid #4a90e2;
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
+        }
+
+        .profile-name {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .profile-title {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        .profile-bio {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .profile-sections {
+            display: grid;
+            gap: 30px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: #4a90e2;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-label {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            color: white;
+            font-weight: 500;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-item {
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            padding: 15px 20px;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+        }
+
+        .skill-level {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .btn-edit {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-save {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .profile-preview {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+            
+            .action-buttons {
+                gap: 15px;
+            }
+        }
+
+        /* Reduced Motion for Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .preview-header, .profile-preview {
+                animation: none;
+            }
+            
+            .skill-item, .btn, .scroll-to-top {
+                transition: none;
+            }
+            
+            .skill-item:hover, .btn:hover, .scroll-to-top:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">Preview Profile</div>
+            <a href="create-profile.html" class="back-btn">← Back to Edit</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="preview-header">
+            <h1 class="preview-title">👀 Profile Preview</h1>
+            <p class="preview-subtitle">This is how your profile will look to others. Review and make any changes if needed.</p>
+        </div>
+
+        <div class="profile-preview">
+            <div class="profile-header">
+                <img id="profilePicture" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='35' r='20' fill='%234a90e2'/%3E%3Cpath d='M20 85c0-16.6 13.4-30 30-30s30 13.4 30 30' fill='%234a90e2'/%3E%3C/svg%3E" alt="Profile Picture" class="profile-picture">
+                <h1 id="profileName" class="profile-name">Loading...</h1>
+                <p id="profileTitle" class="profile-title">Loading...</p>
+                <p id="profileBio" class="profile-bio">Loading...</p>
+            </div>
+
+            <div class="profile-sections">
+                <section class="section">
+                    <h2 class="section-title">📧 Contact Information</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Email</div>
+                            <div id="profileEmail" class="info-value">Loading...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Phone</div>
+                            <div id="profilePhone" class="info-value">Loading...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Location</div>
+                            <div id="profileLocation" class="info-value">Loading...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2 class="section-title">🎓 Education</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Degree</div>
+                            <div id="profileDegree" class="info-value">Loading...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Institution</div>
+                            <div id="profileInstitution" class="info-value">Loading...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Graduation Year</div>
+                            <div id="profileGraduationYear" class="info-value">Loading...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2 class="section-title">💼 Experience</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Current Position</div>
+                            <div id="profilePosition" class="info-value">Loading...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Company</div>
+                            <div id="profileCompany" class="info-value">Loading...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Years of Experience</div>
+                            <div id="profileExperience" class="info-value">Loading...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2 class="section-title">🛠️ Skills</h2>
+                    <div id="skillsGrid" class="skills-grid">
+                        <div class="skill-item">Loading skills...</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="create-profile.html" class="btn btn-edit">✏️ Edit Profile</a>
+            <button type="button" onclick="saveProfile()" class="btn btn-save">💾 Save Profile</button>
+        </div>
+    </main>
+
+    <a href="#" class="scroll-to-top" id="scrollToTop">↑</a>
+
+    <script>
+        // Load profile data from localStorage (temporary data from create-profile form)
+        function loadPreview() {
+            const tempProfileData = localStorage.getItem('tempProfileData');
+            
+            if (tempProfileData) {
+                const profile = JSON.parse(tempProfileData);
+                
+                // Update profile header
+                if (profile.profilePicture) {
+                    document.getElementById('profilePicture').src = profile.profilePicture;
+                }
+                document.getElementById('profileName').textContent = profile.fullName || 'No Name';
+                document.getElementById('profileTitle').textContent = profile.title || 'No Title';
+                document.getElementById('profileBio').textContent = profile.bio || 'No bio available';
+                
+                // Update contact information
+                document.getElementById('profileEmail').textContent = profile.email || 'No email';
+                document.getElementById('profilePhone').textContent = profile.phone || 'No phone';
+                document.getElementById('profileLocation').textContent = profile.location || 'No location';
+                
+                // Update education
+                document.getElementById('profileDegree').textContent = profile.degree || 'No degree';
+                document.getElementById('profileInstitution').textContent = profile.institution || 'No institution';
+                document.getElementById('profileGraduationYear').textContent = profile.graduationYear || 'No year';
+                
+                // Update experience
+                document.getElementById('profilePosition').textContent = profile.position || 'No position';
+                document.getElementById('profileCompany').textContent = profile.company || 'No company';
+                document.getElementById('profileExperience').textContent = profile.experience || 'No experience';
+                
+                // Update skills
+                const skillsGrid = document.getElementById('skillsGrid');
+                if (profile.skills && profile.skills.length > 0) {
+                    skillsGrid.innerHTML = profile.skills.map(skill => `
+                        <div class="skill-item">
+                            <div>${skill.name}</div>
+                            <div class="skill-level">${skill.level}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    skillsGrid.innerHTML = '<div class="skill-item">No skills added yet</div>';
+                }
+            } else {
+                // No temporary data found, redirect to create profile
+                alert('No profile data found. Please fill out the profile form first.');
+                window.location.href = 'create-profile.html';
+            }
+        }
+
+        // Save profile function
+        function saveProfile() {
+            const tempProfileData = localStorage.getItem('tempProfileData');
+            
+            if (tempProfileData) {
+                // Move from temporary to permanent storage
+                localStorage.setItem('userProfile', tempProfileData);
+                localStorage.removeItem('tempProfileData');
+                
+                alert('Profile saved successfully!');
+                window.location.href = 'profile-home.html';
+            } else {
+                alert('No profile data to save. Please go back and fill out the form.');
+            }
+        }
+
+        // Scroll to top functionality
+        function handleScroll() {
+            const scrollToTop = document.getElementById('scrollToTop');
+            if (window.pageYOffset > 300) {
+                scrollToTop.classList.add('visible');
+            } else {
+                scrollToTop.classList.remove('visible');
+            }
+        }
+
+        // Smooth scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', handleScroll);
+        document.getElementById('scrollToTop').addEventListener('click', function(e) {
+            e.preventDefault();
+            scrollToTop();
+        });
+
+        // Load preview when page loads
+        document.addEventListener('DOMContentLoaded', loadPreview);
+    </script>
+</body>
+</html> 

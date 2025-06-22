@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Login - Dark Theme</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            scroll-behavior: smooth;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: clamp(30px, 8vw, 50px) clamp(20px, 5vw, 40px);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: min(400px, 90vw);
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-icon {
+            font-size: clamp(40px, 12vw, 60px);
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: clamp(2rem, 8vw, 2.5rem);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            word-wrap: break-word;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: clamp(12px, 3vw, 15px) clamp(15px, 4vw, 20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            min-height: 44px;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: clamp(12px, 3vw, 15px);
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: clamp(1rem, 3vw, 1.1rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(74, 144, 226, 0.4);
+            background: linear-gradient(45deg, #357abd, #4a90e2);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .forgot-password a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #4a90e2;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .divider span {
+            padding: 0 15px;
+        }
+
+        .social-login {
+            display: flex;
+            gap: clamp(10px, 3vw, 15px);
+            margin-bottom: 30px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: clamp(10px, 3vw, 12px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            min-height: 44px;
+            line-height: 1.2;
+            touch-action: manipulation;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            position: absolute;
+            top: clamp(10px, 3vw, 20px);
+            left: clamp(10px, 3vw, 20px);
+            color: white;
+            text-decoration: none;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 15px);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            min-height: 44px;
+            line-height: 1.2;
+            touch-action: manipulation;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) {
+            width: clamp(30px, 8vw, 60px);
+            height: clamp(30px, 8vw, 60px);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            width: clamp(20px, 6vw, 40px);
+            height: clamp(20px, 6vw, 40px);
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .particle:nth-child(3) {
+            width: clamp(15px, 4vw, 30px);
+            height: clamp(15px, 4vw, 30px);
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .particle:nth-child(4) {
+            width: clamp(25px, 7vw, 50px);
+            height: clamp(25px, 7vw, 50px);
+            top: 30%;
+            right: 30%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+            }
+        }
+
+        /* Extra Small Devices (phones, 320px and up) */
+        @media (min-width: 320px) and (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .login-container {
+                padding: 25px 15px;
+                margin: 10px;
+            }
+            
+            .social-login {
+                flex-direction: column;
+            }
+            
+            .social-btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .back-link {
+                position: relative;
+                top: auto;
+                left: auto;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Small Devices (landscape phones, 481px and up) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .login-container {
+                padding: 30px 20px;
+                margin: 15px;
+            }
+            
+            .social-login {
+                flex-direction: column;
+            }
+            
+            .social-btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .back-link {
+                position: relative;
+                top: auto;
+                left: auto;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Medium Devices (tablets, 769px and up) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .login-container {
+                max-width: 450px;
+            }
+        }
+
+        /* Large Devices (desktops, 1025px and up) */
+        @media (min-width: 1025px) and (max-width: 1440px) {
+            .login-container {
+                max-width: 400px;
+            }
+        }
+
+        /* Extra Large Devices (large desktops, 1441px and up) */
+        @media (min-width: 1441px) {
+            .login-container {
+                max-width: 500px;
+            }
+            
+            h1 {
+                font-size: clamp(2.5rem, 4vw, 3rem);
+            }
+            
+            .subtitle {
+                font-size: clamp(1rem, 2vw, 1.2rem);
+            }
+        }
+
+        /* Ultra Wide Screens (2560px and up) */
+        @media (min-width: 2560px) {
+            .login-container {
+                max-width: 600px;
+            }
+        }
+
+        /* High DPI Displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .social-btn, .back-link {
+                border: 0.5px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        /* Landscape Orientation on Mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+            
+            .login-container {
+                padding: 20px 15px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: clamp(1.5rem, 4vw, 2rem);
+                margin-bottom: 8px;
+            }
+            
+            .subtitle {
+                font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            }
+        }
+
+        /* Portrait Orientation on Mobile */
+        @media (max-width: 768px) and (orientation: portrait) {
+            body {
+                padding: 15px;
+            }
+        }
+
+        /* Reduced Motion for Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .login-container {
+                animation: none;
+            }
+            
+            .login-icon {
+                animation: none;
+            }
+            
+            .particle {
+                animation: none;
+            }
+            
+            .social-btn, .back-link, .login-btn {
+                transition: none;
+            }
+            
+            .social-btn:hover, .back-link:hover, .login-btn:hover {
+                transform: none;
+            }
+        }
+
+        /* High Contrast Mode */
+        @media (prefers-contrast: high) {
+            .social-btn, .back-link {
+                border: 2px solid white;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            /* Already dark theme, no changes needed */
+        }
+
+        .create-account-btn {
+            display: inline-block;
+            width: 100%;
+            padding: clamp(12px, 3vw, 15px);
+            background: linear-gradient(45deg, #21d4fd, #b721ff);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: clamp(1rem, 3vw, 1.1rem);
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 10px;
+            box-shadow: 0 8px 25px rgba(33, 212, 253, 0.15);
+            transition: all 0.3s ease;
+            min-height: 44px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        
+        .create-account-btn:hover {
+            background: linear-gradient(45deg, #b721ff, #21d4fd);
+            box-shadow: 0 12px 35px rgba(183, 33, 255, 0.2);
+            transform: translateY(-2px);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-icon">🔐</div>
+            <h1>Login</h1>
+            <p class="subtitle">Welcome back! Please sign in to continue</p>
+        </div>
+
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="login-btn">Sign In</button>
+
+            <div class="forgot-password">
+                <a href="#">Forgot your password?</a>
+            </div>
+
+            <div class="divider">
+                <span>or continue with</span>
+            </div>
+
+            <div class="social-login">
+                <button type="button" class="social-btn">Google</button>
+                <button type="button" class="social-btn">Facebook</button>
+            </div>
+
+            <div class="action-buttons">
+                <a href="create-account.html" class="create-account-btn">📝 Create Account</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Check if account exists in localStorage
+            const userAccount = localStorage.getItem('userAccount');
+            const userProfile = localStorage.getItem('userProfile');
+            
+            if (email && password) {
+                // Show loading state
+                const loginBtn = document.querySelector('.login-btn');
+                loginBtn.textContent = 'Signing In...';
+                loginBtn.disabled = true;
+                
+                // Simulate login process
+                setTimeout(() => {
+                    if (userAccount) {
+                        const account = JSON.parse(userAccount);
+                        
+                        // Check if credentials match
+                        if (account.emailOrPhone === email && account.password === password) {
+                            if (userProfile) {
+                                // Profile exists, redirect to profile home page
+                                window.location.href = 'profile-home.html';
+                            } else {
+                                // No profile found, redirect to create profile
+                                alert('Account verified! Please create your profile.');
+                                window.location.href = 'create-profile.html';
+                            }
+                        } else {
+                            alert('Invalid email/phone or password. Please try again.');
+                            loginBtn.textContent = 'Sign In';
+                            loginBtn.disabled = false;
+                        }
+                    } else {
+                        // No account found, redirect to create account
+                        alert('No account found. Please create an account first.');
+                        window.location.href = 'create-account.html';
+                    }
+                }, 1500);
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+    </script>
+</body>
+</html> 

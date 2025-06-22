@@ -2,10 +2,272 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Lesson 1 - Basic HTML</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        .content-container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 20px;
+            word-wrap: break-word;
+        }
+        
+        p {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            padding: clamp(10px, 2vw, 15px) clamp(20px, 4vw, 30px);
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-size: clamp(14px, 3vw, 18px);
+            min-height: 44px;
+            line-height: 1.2;
+            touch-action: manipulation;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+        }
+
+        .login-link {
+    background: linear-gradient(90deg, #e0f0ff 0%, #4a90e2 60%, #357abd 100%) !important;
+    margin-top: 15px;
+    box-shadow: 0 0 12px 2px #4a90e2, 0 0 24px 4px #357abd;
+    border: 2px solid #e0f0ff;
+    color: #fff !important;
+    text-shadow: 0 2px 8px #4a90e2, 0 0 2px #357abd;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: box-shadow 0.3s, background 0.3s, color 0.3s;
+}
+
+.login-link:hover {
+    box-shadow: 0 0 24px 6px #4a90e2, 0 0 48px 12px #357abd;
+    background: linear-gradient(90deg, #e0f0ff 0%, #6ec1e4 70%, #357abd 100%) !important;
+    color: #222 !important;
+}
+
+        /* Extra Small Devices (phones, 320px and up) */
+        @media (min-width: 320px) and (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .content-container {
+                padding: 15px;
+            }
+            
+            .nav-link {
+                display: block;
+                width: 100%;
+                max-width: 280px;
+                margin: 10px auto;
+            }
+        }
+
+        /* Small Devices (landscape phones, 481px and up) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .content-container {
+                padding: 20px;
+            }
+            
+            .nav-link {
+                display: block;
+                width: 100%;
+                max-width: 350px;
+                margin: 10px auto;
+            }
+        }
+
+        /* Medium Devices (tablets, 769px and up) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .content-container {
+                max-width: 600px;
+            }
+        }
+
+        /* Large Devices (desktops, 1025px and up) */
+        @media (min-width: 1025px) and (max-width: 1440px) {
+            .content-container {
+                max-width: 800px;
+            }
+        }
+
+        /* Extra Large Devices (large desktops, 1441px and up) */
+        @media (min-width: 1441px) {
+            .content-container {
+                max-width: 1000px;
+            }
+            
+            h1 {
+                font-size: clamp(3rem, 4vw, 5rem);
+            }
+            
+            p {
+                font-size: clamp(1.2rem, 2vw, 2rem);
+            }
+        }
+
+        /* Ultra Wide Screens (2560px and up) */
+        @media (min-width: 2560px) {
+            .content-container {
+                max-width: 1200px;
+            }
+        }
+
+        /* High DPI Displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .nav-link {
+                border: 0.5px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        /* Landscape Orientation on Mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+            
+            .content-container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: clamp(1.5rem, 4vw, 2.5rem);
+                margin-bottom: 10px;
+            }
+            
+            p {
+                font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Portrait Orientation on Mobile */
+        @media (max-width: 768px) and (orientation: portrait) {
+            body {
+                padding: 15px;
+            }
+        }
+
+        /* Reduced Motion for Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .content-container {
+                animation: none;
+            }
+            
+            .nav-link {
+                transition: none;
+            }
+            
+            .nav-link:hover {
+                transform: none;
+            }
+        }
+
+        /* High Contrast Mode */
+        @media (prefers-contrast: high) {
+            .nav-link {
+                border: 2px solid white;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            /* Already dark theme, no changes needed */
+        }
+
+        .login-button-content {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-icon-svg {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to HTML!</h1>
-    <p>This is a basic HTML page.</p>
+    <div class="content-container">
+        <h1>Welcome to HTML!</h1>
+        <p>This is a basic HTML page with dark theme design.</p>
+<a href="login.html" class="nav-link login-link">
+    <span class="login-button-content">
+    <!-- New login icon: a glowing key for a softer lighting effect -->
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" class="login-icon-svg">
+        <defs>
+            <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+        <circle cx="10" cy="10" r="5" fill="#ffe066" filter="url(#softGlow)" />
+        <rect x="13" y="9" width="6" height="2" rx="1" fill="#ffb700" filter="url(#softGlow)" />
+        <rect x="17" y="8.5" width="1.5" height="3" rx="0.75" fill="#ff4e50" filter="url(#softGlow)" />
+    </svg>
+    <span>Login</span>
+    </span>
+</a>
+    </div>
 </body>
 </html>
